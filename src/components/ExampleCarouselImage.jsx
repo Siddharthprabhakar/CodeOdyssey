@@ -1,7 +1,7 @@
 import React from 'react';
-import slide1Image from './slide1.png'; 
-import slide2Image from './slide2.png' 
-import slide3Image from './slide3.png'; 
+import slide1Image from '../images/slide1.png'; 
+import slide2Image from '../images/slide2.png' 
+import slide3Image from '../images/slide3.png'; 
 
 function ExampleCarouselImage({ text }) {
   let selectedImage;

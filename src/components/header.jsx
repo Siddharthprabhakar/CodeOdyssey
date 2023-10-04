@@ -1,32 +1,38 @@
-import { Navbar, Container, Nav, Form, Button, NavDropdown } from 'react-bootstrap';
-import './header.css'
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Link, useLocation } from 'react-router-dom';
+import '../App.css';
 
-function Header(){
-    return(
-        <Navbar expand="lg" className="navbar">
-      <Container fluid>
-        <Navbar.Brand href="/">CodeOdyssey</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" className="navbar-toggler-icon"/>
+//using bootstrap for navbar
+function Header() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+  const isSignupPage = location.pathname === '/signup';
+  if (isLoginPage || isSignupPage) {
+    return null; 
+  }
+
+  return (
+    <Navbar data-bs-theme="dark" className="bg-body-tertiary" expand="lg">
+      <Container fluid >
+        <Navbar.Brand as={Link} to='/home' className='nbrand'>CodeOdyssey</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
-            className="me-auto my-2 my-lg-0"
             style={{ maxHeight: '100px' }}
             navbarScroll
-          >
-            <Nav.Link href="/">Home</Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="/">Action</NavDropdown.Item>
-              <NavDropdown.Item href="/">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/">
-                Something else here
-              </NavDropdown.Item>
+          > 
+            <Nav.Link href='/home'>Home</Nav.Link>
+            <NavDropdown title="Domains" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to='/cloud'>Cloud Computing</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to='/android'>Android Development</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to='/webdev'>Web Development</NavDropdown.Item>
             </NavDropdown>
-            {/* <Nav.Link href="#" disabled>
-              Link
-            </Nav.Link> */}
           </Nav>
           <Form className="d-flex">
             <Form.Control
@@ -35,11 +41,13 @@ function Header(){
               className="me-2"
               aria-label="Search"
             />
-            <Button className="search-button" variant="outline-success">Search</Button>
+            <Button variant="outline-success">Search</Button>
           </Form>
         </Navbar.Collapse>
+        <Link to='/login'><Button variant="outline-success">Log In</Button></Link>
       </Container>
     </Navbar>
-    );
+  );
 }
+
 export default Header;

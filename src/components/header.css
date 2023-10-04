@@ -1,42 +1,4 @@
-body{
-    background-color: #000000;
-  }
-  
-  .navbar {
-      background-color: #000000; 
-      color: #007bff;
-    }
-    
-    .navbar-brand, .navbar-nav .nav-link {
-      color: #ffffff; 
-    }
-    
-    .navbar-brand:hover, .navbar-nav .nav-link:hover {
-      color: #ff0000; 
-    }
-    
-    .navbar-toggler-icon {
-      background-color: #000000; 
-    }
-    
-    .form-control, .btn {
-      margin-top: 5px; 
-    }
-    
-    .search-button {
-      background-color: #3700ff; 
-      color: #ffffff; 
-      border: none; 
-      padding: 8px 16px; 
-      cursor: pointer; 
-      transition: background-color 0.3s ease; 
-    }
-    
-    .search-button:hover {
-      background-color: #570000; 
-    }
-  
-    .carousel {
+.carousel {
       width: 100%; 
       margin: 0 auto;
       background-color: #000000;
@@ -114,11 +76,6 @@ body{
     }
     
     .square-box-right {
-      margin-top: 180px;
-      margin-bottom: 20px;
-      width: 30vw; 
-      height: 30vh; 
-      top: 50px;
       width: 400px;
       height: 400px;
       color: rgb(255, 255, 255);
@@ -172,7 +129,6 @@ body{
     height: 30vh; 
     width: 400px;
     height: 400px;
-    margin-left: 100px;
     align-items: center;
     text-align: center;
     padding: 20px;
@@ -196,50 +152,14 @@ body{
     transform: translateY(-20px); 
     background-color: #81eeff;
   }
+  
   .row {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 40px; /* Adjust the margin-bottom value as needed */
   }
-  
-  .adescription {
-    width: 30vw; 
-    margin-top: 100px;
-    height: 30vh; 
-    width: 400px;
-    height: 400px;
-    margin-left: 100px;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #ccc; 
-    border-radius: 10px; 
-    background-color: #f9f9f9; 
-  }
-  
-  .adescription h3 {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .adescription p {
-    font-size: 18px;
-    color: #555;
-    margin-top: 10px;
-  }
-  
-  .adescription:hover {
-    transform: translateY(-20px); 
-    background-color: #87ffb7;
-  }
-  
-  .adescription img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-  }
-  
+
   .parallax-layer-1 {
     background: url('./background.mp4') ;
     width: 100%;
