@@ -14,33 +14,95 @@ import web from '../images/webbg.mp4'
 import unvideo from '../images/Untitled.mp4'
 import { Link, useLocation } from 'react-router-dom';
 
-function WelcomeSlide() {
-  const squareBoxRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const isSmallScreen = window.innerWidth <= 480; //for smallscreen size after that small screen componets will be seen
+function WelcomeSlide() {  
+  const [isVisibleCloudBox, setIsVisibleCloudBox] = useState(false);
+  const [isVisibleAndroidBox, setIsVisibleAndroidBox] = useState(false);
+  const [isVisibleWebBox, setIsVisibleWebBox] = useState(false);
+  const isSmallScreen = window.innerWidth <= 1280; //for smallscreen size after that small screen componets will be seen
+
+  const cloudBoxRef = useRef(null);
+  const androidBoxRef = useRef(null);
+  const webBoxRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const cloudBoxObserver = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        console.log("Cloud Box Observer Called");
+        if (entry.isIntersecting) {
+          cloudBoxRef.current.classList.add('moveElement-animate');
+        } else {
+          cloudBoxRef.current.classList.remove('moveElement-animate');
+        }
       },
       {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5,
+        threshold: 0.2,
       }
     );
+    
+    const androidBoxObserver = new IntersectionObserver(
+      ([entry]) => {
+        console.log("Android Box Observer Called");
+        setIsVisibleAndroidBox(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          androidBoxRef.current.classList.add('moveElement-animate');
+        } else {
+          androidBoxRef.current.classList.remove('moveElement-animate');
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2,
+      }
+    );
+    
+    const webBoxObserver = new IntersectionObserver(
+      ([entry]) => {
+        console.log("Web Box Observer Called");
+        setIsVisibleWebBox(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          webBoxRef.current.classList.add('moveElement-animate');
+        } else {
+          webBoxRef.current.classList.remove('moveElement-animate');
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2,
+      }
+    );
+    
 
-    if (squareBoxRef.current) {
-      observer.observe(squareBoxRef.current);
+    if (cloudBoxRef.current) {
+      cloudBoxObserver.observe(cloudBoxRef.current);
     }
 
+    if (androidBoxRef.current) {
+      androidBoxObserver.observe(androidBoxRef.current);
+    }
+
+    if (webBoxRef.current) {
+      webBoxObserver.observe(webBoxRef.current);
+    }
+
+    // Clean up observers
     return () => {
-      if (squareBoxRef.current) {
-        observer.unobserve(squareBoxRef.current);
+      if (cloudBoxRef.current) {
+        cloudBoxObserver.unobserve(cloudBoxRef.current);
+      }
+
+      if (androidBoxRef.current) {
+        androidBoxObserver.unobserve(androidBoxRef.current);
+      }
+
+      if (webBoxRef.current) {
+        webBoxObserver.unobserve(webBoxRef.current);
       }
     };
-  }, []);
+  }, []); // Ensure this effect runs only once
 
   const [scrollY, setScrollY] = useState(0);
   const parallaxRef = useRef(null);
@@ -50,6 +112,30 @@ function WelcomeSlide() {
       setScrollY(parallaxRef.current.scrollTop);
     }
   };
+
+
+
+  const calcOpacity = (scrollPosition, triggerPoint, fadeDistance, isScrollingDown) => {
+    const distance = Math.abs(scrollPosition - triggerPoint);
+    let opacity = 1 - distance / fadeDistance;
+    opacity = Math.min(1, opacity);
+    opacity = Math.max(0, opacity);
+    
+    // If scrolling up, reverse the opacity calculation
+    if (!isScrollingDown) {
+      opacity = 1 - opacity;
+    }
+    
+    return opacity;
+  };
+
+  const cloudOpacity = calcOpacity(scrollY, 200, 500); // Adjust triggerPoint and fadeDistance as needed
+  const androidOpacity = calcOpacity(scrollY, 900, 1500); // Adjust triggerPoint and fadeDistance as needed
+  const webOpacity = calcOpacity(scrollY, 1200, 1900); // Adjust triggerPoint and fadeDistance as needed
+
+  const cloudProps = useSpring({ opacity: isVisibleCloudBox ? cloudOpacity : 1 });
+  const androidProps = useSpring({ opacity: isVisibleAndroidBox ? androidOpacity : 0 });
+  const webProps = useSpring({ opacity: isVisibleWebBox ? webOpacity : 0 });
 
   const calcTransform = (start, end, startY, endY) => {
     const scale = 1 + (end - start) / 3000;
@@ -151,22 +237,10 @@ function WelcomeSlide() {
   }
 
   
+  
   return (
-    <div
-      className="scrollElement"
-      onScroll={handleScroll}
-      ref={parallaxRef}
-      style={{
-        height: '100vh',
-        overflowY: 'scroll',
-        position: 'relative',
-        backgroundColor: '#000',
-      }}
-    >
-      {/* use of parallax component of react spring */}
-      <Parallax pages={6} style={{ overflow: 'visible' }}>
-      <ParallaxLayer speed={1}>
-      <Carousel className='carouselbody'>
+    <>
+    <Carousel className='carouselbody'>
       <Carousel.Item>
         <ExampleCarouselImage text="First slide" />
          <Carousel.Caption>
@@ -222,6 +296,22 @@ function WelcomeSlide() {
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
+
+    <div
+      className="scrollElement"
+      onScroll={handleScroll}
+      ref={parallaxRef}
+      style={{
+        height: '100vh',
+        overflowY: 'scroll',
+        position: 'relative',
+        backgroundColor: '#000',
+      }}
+    >
+      {/* use of parallax component of react spring */}
+      <Parallax pages={6} style={{ overflow: 'visible' }}>
+      <ParallaxLayer speed={1}>
+      
       </ParallaxLayer>
       
       <ParallaxLayer offset={1} speed={0.5} className="parallax-layer-1"z-index={1}>
@@ -238,17 +328,17 @@ function WelcomeSlide() {
             <source src={video} type="video/mp4" />
             Your browser does not support the video tag.
           </animated.video>
-          <div className="cloudbox">
+          <animated.div className="cloudybox" style={cloudProps} ref={cloudBoxRef}>
            <Link to='/cloud'><img src={cloudImage} alt="Cloud" /></Link>
-            <div className="description">
-              <h3>Cloud Computing</h3>
-              <p>
+            <div  className="clouddescription">
+              <h3 className="h3ka">Cloud Computing</h3>
+              <p className="pka">
                 Cloud Computing: Unleash Limitless Potential! Cloud computing revolutionizes digital life. 
                 Access files anywhere, collaborate seamlessly, and enjoy infinite storage. It's secure, 
                 cost-effective magic that turns the ordinary into extraordinary, making the impossible your new reality!
               </p>
               </div>
-        </div>
+        </animated.div>
       </ParallaxLayer>
 
 
@@ -266,17 +356,17 @@ function WelcomeSlide() {
             <source src={android} type="video/mp4" />
             Your browser does not support the video tag.
           </animated.video>
-          <div className="androidbox">
-            <Link to='/android'><img src={androidImage} alt="Cloud" /></Link>
-            <div className="description">
-              <h3>Android Development</h3>
-              <p>
+          <animated.div className="androidbox" style={androidProps} ref={androidBoxRef}>
+            <Link to='/android'><img src={androidImage} alt="android" /></Link>
+            <div className="andydescription">
+              <h3 className='h3ka'>Android Development</h3>
+              <p className='pka'>
                 Cloud Computing: Unleash Limitless Potential! Cloud computing revolutionizes digital life. 
                 Access files anywhere, collaborate seamlessly, and enjoy infinite storage. It's secure, 
                 cost-effective magic that turns the ordinary into extraordinary, making the impossible your new reality!
               </p>
               </div>
-        </div>
+        </animated.div>
       </ParallaxLayer>
 
 
@@ -294,24 +384,22 @@ function WelcomeSlide() {
             <source src={web} type="video/mp4" />
             Your browser does not support the video tag.
           </animated.video>
-          <div className="webbox">
+          <animated.div className="webbox" style={webProps} ref={webBoxRef}>
            <Link to='/webdev'><img src={webdev} alt="Web Development" /></Link> 
-            <div className="description">
-              <h3>Web Development</h3>
-              <p>
+            <div className="webbydescription" ref={webBoxRef}>
+              <h3 className="h3ka">Web Development</h3>
+              <p className="pka">
                 Cloud Computing: Unleash Limitless Potential! Cloud computing revolutionizes digital life. 
                 Access files anywhere, collaborate seamlessly, and enjoy infinite storage. It's secure, 
                 cost-effective magic that turns the ordinary into extraordinary, making the impossible your new reality!
               </p>
               </div>
-        </div>
+        </animated.div>
       </ParallaxLayer>
     </Parallax>
-    
-
     </div>
+    </>
   )
 }
 
 export default WelcomeSlide;
-

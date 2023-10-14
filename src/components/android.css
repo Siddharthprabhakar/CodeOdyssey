@@ -32,7 +32,7 @@
 }
 
 .square-box {
-  margin-top: 250px;
+  margin-top: 290px;
   margin-bottom: 400px;
   justify-content: center;
   width: 500px;
@@ -99,7 +99,7 @@
 .textox {
   width: 1000px;
   position: absolute;
-  top: 0px;
+  top: 90px;
   font-size: 100px; 
   font-family: 'Gabarito', sans-serif;
   color: rgb(255, 255, 255);

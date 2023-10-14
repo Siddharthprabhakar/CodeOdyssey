@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
+import topics from './topicData'
+import ProgressCircles from './ProgressCircles';
+import LoginOverlay from './LoginOverlay';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import image from '../images/Cloud.png';
 import aws from'../images/AWS.png'
 import digital from '../images/DigitalOcean.png'
@@ -13,10 +17,188 @@ import iaas from '../images/iaas.jpg'
 import paas from '../images/paas.jpg'
 import saas from '../images/saas.jpg'
 
+function SidebarContent({ data, onHide, onPrevious, onNext, selectedTopicIndex }) {
+  const [currentTopicIndex, setCurrentTopicIndex] = useState(selectedTopicIndex);
+  const [isLoading, setIsLoading] = useState(false);
+ 
+  useEffect(() => {
+    setCurrentTopicIndex(selectedTopicIndex);
+  }, [selectedTopicIndex]);
+
+  const handlePreviousTopic = () => {
+    if (currentTopicIndex > 0) {
+      onPrevious(); // Call the parent component's onPrevious function
+
+      setTimeout(() => {
+        setIsLoading(false); // Set loading state to false when content is loaded
+      }, 3000); // Assuming 3 seconds loading time for demonstration
+    }
+  };
+
+  const handleNextTopic = () => {
+    if (currentTopicIndex < topics.length - 1) {
+      setIsLoading(true); // Set loading state to true when "Next" button is clicked
+      onNext(); // Call the parent component's onNext function
+
+      // Simulate loading time (You can replace this with actual loading logic)
+      setTimeout(() => {
+        setIsLoading(false); // Set loading state to false when content is loaded
+      }, 3000); // Assuming 3 seconds loading time for demonstration
+    }
+  };
+  
+
+  return (
+    <>
+    {/* {topics.map((topic, index) => (
+        <div key={index} className="topic-box" onClick={() => handleBoxClick(index)}>
+          {topic.title}
+        </div>
+      ))} */}
+      <Offcanvas show={data !== null} onHide={onHide} backdrop="static" style={{
+        color: "#1E90FF",
+        transition:' transform 0.6s ease',
+      }}>
+         
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>{data?.title}</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <div className="sidebar">
+           {/* Preloader - Conditionally rendered when isLoading is true
+           {isLoading && <div className="preloader">Loading...</div>} */}
+
+          {/* Conditional rendering for description */}
+          {data && data.description && (
+            <p className="description">{data.description}</p>
+          )}
+
+            {/* Conditional rendering for main image */}
+            {data && data.images && data.images.main && (
+              <img src={data.images.main} alt="Main" />
+            )}
+
+            {/* Conditional rendering for related images */}
+            {data && data.images && data.images.related && (
+              <div className="related-images">
+                {data.images.related.map((image, index) => (
+                  <img key={index} src={image} alt={`Related ${index}`} />
+                ))}
+              </div>
+            )}
+            
+            {/* Conditional rendering for links */}
+            {data && data.learnMoreLinks && data.learnMoreLinks.length > 0 && (
+              <div className="learnMoreLinks">
+                {data.learnMoreLinks.map((link, index) => (
+                  <div className="link" key={index}>
+                    <a href={link.url} target="_blank" rel="noopener noreferrer">
+                      {link.title}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Conditional rendering for links */}
+            {data && data.links && data.links.wikipedia && (
+              <div className="link">
+                <a href={data.links.wikipedia} target="_blank" rel="noopener noreferrer">
+                  Wikipedia
+                </a>
+              </div>
+            )}
+
+            {/* Conditional rendering for links */}
+            {data && data.links && data.links.wikipedia && (
+              <div className="link">
+                <a href={data.links.learnMore} target="_blank" rel="noopener noreferrer">
+                learnMore
+                </a>
+              </div>
+            )}
+
+            {data && data.links && data.links.tutorial && (
+              <div className="link">
+                <a href={data.links.tutorial} target="_blank" rel="noopener noreferrer">
+                  Tutorial
+                </a>
+              </div>
+            )}
+
+            {/* Conditional rendering for videos */}
+            {data && data.videos && data.videos.length > 0 && (
+              <div className="videos">
+                {data.videos.map((video, index) => (
+                 <iframe
+                 key={index}
+                 title={`Video ${index}`}
+                 width="100%"  // Set the width to 100% to fit the sidebar
+                 height="315"
+                 src={video}
+                 frameBorder="0"
+                 allowFullScreen
+               ></iframe>
+               ))}
+              </div>
+            )} 
+            <div className="navigation-buttons">
+              <button onClick={handlePreviousTopic} disabled={selectedTopicIndex === 0}>
+                Back
+              </button>
+            <button
+                onClick={handleNextTopic}
+                disabled={selectedTopicIndex === topics.length - 1}
+              >
+                Next
+            </button>
+          </div>
+          </div>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  );
+}
+
 const MindMap = () => {
   const [isIaasDescVisible, setIsIaasDescVisible] = useState(false);
   const [isPaasDescVisible, setIsPaasDescVisible] = useState(false);
   const [isSaasDescVisible, setIsSaasDescVisible] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(true);
+
+  const handlePreviousTopic = () => {
+    if (selectedTopicIndex > 0) {
+      setSelectedTopicIndex(selectedTopicIndex - 1);
+      setSelectedTopic(topics[selectedTopicIndex - 1]); // Update selected topic
+    }
+  };
+
+  const handleNextTopic = () => {
+    if (selectedTopicIndex < topics.length - 1) {
+      setSelectedTopicIndex(selectedTopicIndex + 1);
+      setSelectedTopic(topics[selectedTopicIndex + 1]); // Update selected topic
+    }
+  };
+
+  const handleBoxClick = (topicData) => {
+    setSelectedTopic(topicData);
+    setShowSidebar(true);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    setShowOverlay(false);
+  };
+  
+
+  const handleCloseSidebar = () => {
+    setShowSidebar(false);
+    setSelectedTopic(null);
+  };
 
   const handleIaasMouseEnter = () => {
     setIsIaasDescVisible(true);
@@ -42,9 +224,33 @@ const MindMap = () => {
     setIsSaasDescVisible(false);
   };
 
+  useEffect(() => {
+    if (showOverlay) {
+      document.body.classList.add('overlay-visible');
+    } else {
+      document.body.classList.remove('overlay-visible');
+    }
+  }, [showOverlay]);
+
   return (
-      <div className="mind-map">
+    <div className="mind-map">
+    {showSidebar && selectedTopicIndex !== null && (
+      <SidebarContent
+        data={topics[selectedTopicIndex]}
+        onHide={handleCloseSidebar}
+        onPrevious={handlePreviousTopic}
+        onNext={handleNextTopic}
+      />
+    )}
+    {showOverlay && !isLoggedIn && <LoginOverlay onLogin={handleLogin} />}
+    {isLoggedIn && (
+      <>
+       <div className="progress-circles-container" style={{ right: "0px"}}>
+      <ProgressCircles /> 
+      </div>
+      <div className='mind-map'>
         <div className="cloudtextbox">Cloud Computing</div>
+        
 
         <div class="line"></div>
         <div className="cloudsquare-box">
@@ -56,26 +262,26 @@ const MindMap = () => {
           <div className="lminbranch">
             <div className="lbranch">
                 <div className="phpbranch">
-                    <div className="phpbox">
-                      PHP
-                    </div>
-                    <div className="javabox">
-                      JAVA
-                    </div>
+                <div className="phpbox" onClick={() => handleBoxClick(topics[0])}>
+                    PHP
+                  </div>
+                  <div className="javabox" onClick={() => handleBoxClick(topics[1])}>
+                    JAVA
+                  </div>
                 </div>
                 <div className="rubybranch">
-                <div className="phpbox">
-                      RUBY
-                    </div>
-                    <div className="javabox">
+                  <div className="phpbox" onClick={() => handleBoxClick(topics[2])}>
+                    RUBY
+                  </div>
+                  <div className="javabox" onClick={() => handleBoxClick(topics[3])}>
                       .NET
                     </div>
                 </div>
                 <div className="golangbranch">
-                <div className="phpbox">
+                <div className="phpbox" onClick={() => handleBoxClick(topics[4])}>
                       GOLANG
                     </div>
-                    <div className="javabox">
+                    <div className="javabox" onClick={() => handleBoxClick(topics[5])}>
                       JAVASCRIPT
                     </div>
                 </div>
@@ -84,17 +290,17 @@ const MindMap = () => {
           <div className="rminbranch">
             <div className="rbranch">
               <div className="pybranch">
-              <div className="pybox">
+              <div className="pybox" onClick={() => handleBoxClick(topics[6])}>
                       PYTHON
                     </div>
               </div>
               <div className="psbranch">
-              <div className="pybox">
+              <div className="pybox" onClick={() => handleBoxClick(topics[7])}>
               POWERSHELL
                     </div>
               </div>
               <div className="bashbranch">
-              <div className="pybox">
+              <div className="pybox" onClick={() => handleBoxClick(topics[8])}>
               BASH/SHELL SCRIPTING
                     </div>
               </div>
@@ -106,26 +312,26 @@ const MindMap = () => {
         CLOUD SERVICE PROVIDERS
             <div className="servicebranchleft">
             
-              <div className="awsbranch">
-                <div className="awsbox">
+            <div className="awsbranch">
+              <div className="awsbox" onClick={() => handleBoxClick(topics[9])}>
                 <img src={aws} alt="aws" />
-                </div>
+              </div>
               </div>
 
               <div className="digitaloceanbranch">
-                <div className="digitaloceanbox">
+                <div className="digitaloceanbox" onClick={() => handleBoxClick(topics[10])}>
                 <img src={digital} alt="digitalocean" />
                 </div>
               </div>
 
               <div className="ovhbranch">
-                <div className="ovhbox">
+                <div className="ovhbox" onClick={() => handleBoxClick(topics[11])}>
                   <img src={ovh} alt="OVHCloud"/>
                 </div>
               </div>
 
               <div className="oraclebranch">
-                <div className="Oraclebox">
+                <div className="Oraclebox" onClick={() => handleBoxClick(topics[12])}>
                   <img src={oracle} alt="Oracle"/>
                 </div>
               </div>
@@ -134,25 +340,25 @@ const MindMap = () => {
             <div className="servicebranchright"></div>
 
             <div className="gcloudbranch">
-              <div className="gcloudbox">
+              <div className="gcloudbox" onClick={() => handleBoxClick(topics[13])}>
                 <img src={gcloud} alt="googlecloud"/>
               </div>
             </div>
 
             <div className="azurebranch">
-              <div className="azurebox">
+              <div className="azurebox" onClick={() => handleBoxClick(topics[14])}>
                 <img src={azure} alt="Azure"/>
               </div>
             </div>
 
             <div className="tencentbranch">
-              <div className="tencentbox">
+              <div className="tencentbox" onClick={() => handleBoxClick(topics[15])}>
               <img src={tencent} alt="Tencent Cloud"/>
               </div>
             </div>
 
             <div className="ibmbranch">
-              <div className="ibmbox">
+              <div className="ibmbox" onClick={() => handleBoxClick(topics[16])}>
               <img src={ibm} alt=" International Business Machines(IBM)" />
               </div>
             </div>
@@ -174,7 +380,7 @@ const MindMap = () => {
           CLOUD SERVICE MODELS
           <div className="lcsmbranch">
             <div>
-            <div className="iaasbox" onMouseEnter={handleIaasMouseEnter} onMouseLeave={handleIaasMouseLeave}>
+            <div className="iaasbox" onMouseEnter={handleIaasMouseEnter} onMouseLeave={handleIaasMouseLeave}  onClick={() => handleBoxClick(topics[17])}>
               Infrastructure as a Service (IaaS)
               {isIaasDescVisible && (
                 <div className="iaasdescbox">
@@ -190,7 +396,7 @@ const MindMap = () => {
             </div>
             
             <div className="paasbranch">
-            <div className="paasbox" onMouseEnter={handlePaasMouseEnter} onMouseLeave={handlePaasMouseLeave}>
+            <div className="paasbox" onMouseEnter={handlePaasMouseEnter} onMouseLeave={handlePaasMouseLeave} onClick={() => handleBoxClick(topics[18])}>
                 Platform as a Service <br/> (PaaS)
                 {isPaasDescVisible && (
                 <div className="paasdescbox">
@@ -208,7 +414,7 @@ const MindMap = () => {
           </div>
           <div className='rcsmbranch'>
             <div className="saasbranch">
-              <div className="saasbox"  onMouseEnter={handleSaasMouseEnter} onMouseLeave={handleSaasMouseLeave}>
+              <div className="saasbox"  onMouseEnter={handleSaasMouseEnter} onMouseLeave={handleSaasMouseLeave} onClick={() => handleBoxClick(topics[19])}>
               Software as a Service (SaaS)
               {isSaasDescVisible && (
               <div className="saasdescbox">
@@ -229,7 +435,7 @@ const MindMap = () => {
         CLOUD COMPUTING INFRASTRUCTURE
         <div className="lcloudinfrabranch">
            <div className="mgsoftbranch">
-                <div className="mgsoftbox">
+                <div className="mgsoftbox"  onClick={() => handleBoxClick(topics[20])}>
                 MANAGEMENT SOFTWARE
                 <div className="description">
                 Management software in cloud helps control and optimize digital resources remotely, ensuring efficient use and smooth operation of online services
@@ -237,7 +443,7 @@ const MindMap = () => {
                 </div>
             </div>
             <div className="deploybranch">
-                <div className="deploybox">
+                <div className="deploybox" onClick={() => handleBoxClick(topics[21])}>
                 DEPLOYMENT SOFTWARE
                 <div className="description">
                 Deployment software simplifies putting apps on the cloud. It automates the process, ensuring apps work well, integrate smoothly, and are easily accessible online.
@@ -245,7 +451,7 @@ const MindMap = () => {
                 </div>
             </div>
             <div className="hyperbranch">
-              <div className="hyperbox">
+              <div className="hyperbox"  onClick={() => handleBoxClick(topics[22])}>
               HYPERVISOR
               <div className="description">
               Hypervisor is a firmware or low-level program that acts as a Virtual Machine Manager. It allows to share the single physical instance of cloud resources between several tenants.
@@ -255,7 +461,7 @@ const MindMap = () => {
         </div>
         <div className="rcloudinfrabranch">
          <div className="networkbranch">
-               <div className="networkbox">
+               <div className="networkbox"  onClick={() => handleBoxClick(topics[23])}>
                   NETWORK
                   <div className="description">
                   Network
@@ -264,7 +470,7 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
                 </div>
         </div>
         <div className="serverbranch">
-          <div className="serverbox">
+          <div className="serverbox"  onClick={() => handleBoxClick(topics[24])}>
             SERVER
             <div className="description">
             The server helps to compute the resource sharing and offers other services such as resource allocation and de-allocation, monitoring the resources, providing security etc.
@@ -272,7 +478,7 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
           </div>
         </div>
         <div className="storagebranch">
-          <div className="storagebox">
+          <div className="storagebox"  onClick={() => handleBoxClick(topics[25])}>
             STORAGE
             <div className="description">
             Cloud keeps multiple replicas of storage. If one of the storage resources fails, then it can be extracted from another one, which makes cloud computing more reliable.
@@ -286,7 +492,7 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
           DEPLOYMENT MODELS
           <div className="ldeploymodelbranch">
             <div className="publiccloudbranch">
-                  <div className="publiccloudbox">
+                  <div className="publiccloudbox" onClick={() => handleBoxClick(topics[26])}>
                   PUBLIC CLOUD
                   <div className="description">
                   As the name suggests, this type of cloud deployment model supports all users who want to make use of a 
@@ -296,7 +502,7 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
                   </div>
             </div>
             <div className="privatecloudbranch">
-                  <div className="privatecloudbox">
+                  <div className="privatecloudbox" onClick={() => handleBoxClick(topics[27])}>
                   PRIVATE CLOUD
                     <div className="description">
                     True to its name, a private cloud is typically infrastructure used by a single organization. Such infrastructure 
@@ -308,7 +514,7 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
           </div>
           <div className="rdeploymodelbranch">
           <div className="hybridcloudbranch">
-            <div className="hybridcloudbox">
+            <div className="hybridcloudbox" onClick={() => handleBoxClick(topics[28])}>
               HYBRID CLOUD
               <div className="description">
               In a hybrid cloud, an organization makes use of interconnected private and public cloud infrastructure. Many organizations
@@ -319,7 +525,7 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
 
           </div>
           <div className="communitycloudbranch">
-            <div className="communitycloudbox">
+            <div className="communitycloudbox" onClick={() => handleBoxClick(topics[29])}>
                 COMMUNITY CLOUD
                 <div className="description">
                 This deployment model supports multiple organizations sharing computing resources that are part of a community. It is designed
@@ -341,7 +547,19 @@ It is the key component of cloud infrastructure. It allows to connect cloud serv
           <a href="https://www.simplilearn.com/introduction-to-cloud-computing-basics-skillup" target="_blank" rel="noopener noreferrer">Introduction to Cloud Computing Basics on Simplilearn</a>
       </div>
     </div>
-  );
+    
+    {showSidebar && selectedTopic && (
+            <SidebarContent data={selectedTopic} 
+            selectedTopicIndex={selectedTopicIndex} 
+            onHide={handleCloseSidebar}   
+            onPrevious={handlePreviousTopic}
+            onNext={handleNextTopic}
+            />
+          )}
+        </>
+      )}
+   </div>
+ );
 };
 
 export default MindMap;

@@ -11,6 +11,8 @@ import MindMap from './components/MindMap'
 import Signup from './components/signup.jsx'
 import AndroidMap from './components/anroid.jsx'
 import Webdev from './components/webdev.jsx'
+import ContactUs from './components/ContactUs.jsx'
+import Profile from './components/profile.jsx'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
       {
         path:'/webdev',
         element:<Webdev/>
+      },
+      {
+        path:'/aboutus',
+        element:<ContactUs/>
+      },
+      {
+        path:'/profile',
+        element:<Profile/>
       }
       
     ],
