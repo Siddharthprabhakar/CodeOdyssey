@@ -4,6 +4,8 @@ import './home.css'
 import chatbot from '../images/chatbot.png'
 import form from '../images/form.png'
 
+const DB = 'mongodb+srv://cs:<testcase12>@cluster0.dy22wns.mongodb.net/details?retryWrites=true&w=majority'
+
 const ContactUs = () => {
   return (
     <div>
