@@ -3,34 +3,58 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm:dev:vite\" \"npm:dev:register\" \"npm:dev:indserver\" \"npm:dev:mokserver\"",
+    "dev:vite": "vite",
+    "dev:register": "cd src/server && node register.js",
+    "dev:indserver": "cd src/server && node index.js",
+    "dev:mokserver": "cd src/roadmap-progress-tracker && node server.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview"
   },
+
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-spring/parallax": "^9.7.3",
     "@uidotdev/usehooks": "^2.3.1",
+    "axios": "^1.5.1",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
     "cdbreact": "^1.5.18",
+    "cors": "^2.8.5",
+    "datepicker": "^0.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "gasp": "^0.0.2",
     "git": "^0.1.5",
     "gsap": "^3.12.2",
     "mdb-react-ui-kit": "^6.3.0",
+    "mongoose": "^7.6.3",
+    "nodemon": "^3.0.1",
+    "process": "^0.11.10",
     "rc-footer": "^0.6.8",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.9.0",
+    "react-bootstrap": "^2.9.1",
+    "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.16.0",
-    "react-spring": "^9.7.3"
+    "react-scripts": "^3.0.1",
+    "react-spring": "^9.7.3",
+    "react-tinder-card": "^1.5.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
+    "concurrently": "^8.2.2",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",

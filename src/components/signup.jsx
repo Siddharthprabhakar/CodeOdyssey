@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import './login.css';
 import image from '../images/A group of deve 0 (1).png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import Axios from 'axios';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,8 +25,8 @@ const Signup = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
   const handleDobChange = (e) => {
@@ -35,27 +37,40 @@ const Signup = () => {
     setRememberMe(!rememberMe);
   };
 
-  //logic for error handling in all the text fields 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (password.length < 8) {
       alert('Password must be at least 8 characters long.');
       return;
     }
-  
+
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordPattern.test(password)) {
       alert('Password must contain at least one uppercase letter, one number, one special character, and no spaces.');
       return;
     }
-  
+
     if (password !== confirmPassword) {
       alert('Passwords do not match.');
       return;
     }
-  
-    console.log('Signup submitted');
+
+    try {
+      const response = await Axios.post('http://localhost:3000/signup', {
+        name,
+        email,
+        password,
+        dob,
+      });
+
+      console.log('User registered successfully:', response.data);
+      // Redirect to the home page after successful registration
+      navigate('/home');
+    } catch (error) {
+      console.error('Error registering user:', error);
+      // Handle the error, e.g., display an error message to the user.
+    }
   };
 
   return (
@@ -68,7 +83,7 @@ const Signup = () => {
 
         <div className="login__inputs">
           <div className="login__box">
-            <input type="text" placeholder="Name" required className="login__input" value={firstName} onChange={handleFirstNameChange} />
+            <input type="text" placeholder="Name" required className="login__input" value={name} onChange={handleNameChange} />
           </div>
 
           <div className="login__box">
@@ -92,7 +107,9 @@ const Signup = () => {
             <label htmlFor="user-check" className="login__check-label">Remember me</label>
           </div>
         </div>
-        <button as={Link} to='/home' type="submit" className="login__button">Sign Up</button>
+        <button type="submit" className="login__button">
+          Sign Up
+        </button>
       </form>
     </div>
   );

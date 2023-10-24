@@ -1,12 +1,61 @@
 import React from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import './home.css'
+import Axios from 'axios'
 import chatbot from '../images/chatbot.png'
 import form from '../images/form.png'
+import {useState} from 'react'
 
-const DB = 'mongodb+srv://cs:<testcase12>@cluster0.dy22wns.mongodb.net/details?retryWrites=true&w=majority'
+
+
+
+// const DB = 'mongodb+srv://cs:<testcase12>@cluster0.dy22wns.mongodb.net/details?retryWrites=true&w=majority'
+
+
+
 
 const ContactUs = () => {
+
+  const [name, setName] = useState('')
+const [email, setEmail] = useState('')
+const [message, setMessage] = useState('')
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // Make a POST request to Formspree for email notifications
+    const formSpreeEndpoint = 'https://formspree.io/f/mrgwjlqz'; 
+    const formSpreeResponse = await Axios.post(formSpreeEndpoint, {
+      name,
+      email,
+      message,
+    });
+
+    // Make a POST request to your Express server to insert data into MongoDB
+    const serverResponse = await Axios.post('http://localhost:4000/insert', {
+      name,
+      email,
+      message,
+    });
+
+    // Handle responses as needed
+    console.log("Data submitted successfully to Formspree:", formSpreeResponse.data);
+    console.log("Data submitted successfully to MongoDB:", serverResponse.data);
+
+    // Optionally, reset form fields or show a success message to the user
+    setName('');     // Reset the name field
+    setEmail('');    // Reset the email field
+    setMessage('');  // Reset the message field
+  } catch (error) {
+    console.error("Error submitting data:", error);
+    // Handle errors here, such as displaying an error message to the user
+  }
+};
+
+
+
+
   return (
     <div>
       <div style={{ backgroundColor: "#2F3C7E"}}>
@@ -121,20 +170,20 @@ const ContactUs = () => {
         <h2 className="display-4 font-weight-light mb-4 text-center">Get in Touch</h2>
           <Row className="justify-content-center">
             <Col md={8}>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formName">
                   <Form.Label className="mb-1">Your Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter your name" className="mb-3" />
+                  <Form.Control type="text" placeholder="Enter your name" onChange={(e) => {setName(e.target.value)}} className="mb-3" />
                 </Form.Group>
 
                 <Form.Group controlId="formEmail">
                   <Form.Label className="mb-1">Email Address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter your email" className="mb-3" />
+                  <Form.Control type="email" placeholder="Enter your email" onChange={(e) => {setEmail(e.target.value)}} className="mb-3" />
                 </Form.Group>
 
                 <Form.Group controlId="formMessage">
                   <Form.Label className="mb-1">Message</Form.Label>
-                  <Form.Control as="textarea" rows={4} placeholder="Enter your message" className="mb-3" />
+                  <Form.Control as="textarea" rows={4} placeholder="Enter your message" onChange={(e) => {setMessage(e.target.value)}} className="mb-3" />
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className="rounded-pill">

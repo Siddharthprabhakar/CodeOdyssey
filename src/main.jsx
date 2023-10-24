@@ -1,11 +1,12 @@
 import React from 'react'
+import process from 'process'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
-import { Login } from './components/login.jsx'
+import Login  from './components/login.jsx'
 import WelcomeSlide from './components/WelcomeSlide.jsx'
 import MindMap from './components/MindMap'
 import Signup from './components/signup.jsx'

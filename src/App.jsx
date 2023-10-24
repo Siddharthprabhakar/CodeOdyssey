@@ -16,7 +16,7 @@ function App() {
     <>
     <PreLoader/>
     <div className="App">
-      <Header />
+      {/* <Header /> */}
       {outlet || ((size.width <= 1280) ? <MobileWelcomeSlide /> : <WelcomeSlide />) }
       <Footer/>
     </div>

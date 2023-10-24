@@ -17,11 +17,10 @@ import iaas from '../images/iaas.jpg'
 import paas from '../images/paas.jpg'
 import saas from '../images/saas.jpg'
 
-
 function SidebarContent({ data, onHide, onPrevious, onNext, selectedTopicIndex }) {
   const [currentTopicIndex, setCurrentTopicIndex] = useState(selectedTopicIndex);
   const [isLoading, setIsLoading] = useState(false);
-
+ 
   useEffect(() => {
     setCurrentTopicIndex(selectedTopicIndex);
   }, [selectedTopicIndex]);
@@ -29,40 +28,35 @@ function SidebarContent({ data, onHide, onPrevious, onNext, selectedTopicIndex }
   const handleNextTopic = () => {
     if (currentTopicIndex < topics.length - 1) {
       setIsLoading(true);
-      const nextIndex = currentTopicIndex + 1; // Calculate the next index
   
-      // Check if the next index is within bounds
-      if (nextIndex < topics.length) {
-        const nextTopic = topics[nextIndex];
-        const updatedProgress = {
-          topicId: nextTopic.id, // Use the next topic's id
-          progress: 100, // Assuming you're marking it as complete
-        };
+      // Save user's progress to MongoDB
+      const currentTopic = topics[currentTopicIndex];
+      const updatedProgress = {
+        topicId: currentTopic.id, // Use a unique identifier for each topic
+        progress: 100, // Assuming you're marking it as complete
+      };
   
-        fetch(`http://localhost:5000/progress/update-progress/${nextTopic.id}`, {
-          method: 'PUT', // Change to PUT method
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedProgress),
+      fetch(`http://localhost:4000/progress/update-progress/${currentTopic.id}`, {
+        method: 'PUT', // Change to PUT method
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProgress),
+      })
+        .then((response) => {
+          if (response.ok) {
+            // Progress updated successfully, move to the next topic
+            onNext();
+          } else {
+            console.log('Error updating progress');
+          }
         })
-          .then((response) => {
-            if (response.ok) {
-              // Progress updated successfully, move to the next topic
-              onNext();
-            } else {
-              console.log('Error updating progress');
-            }
-          })
-          .catch((error) => {
-            console.error('Error updating progress:', error);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
-      } else {
-        setIsLoading(false);
-      }
+        .catch((error) => {
+          console.error('Error updating progress:', error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
   
@@ -73,7 +67,7 @@ function SidebarContent({ data, onHide, onPrevious, onNext, selectedTopicIndex }
       // Retrieve user's progress for the previous topic from MongoDB
       const previousTopic = topics[currentTopicIndex - 1];
   
-      fetch(`http://localhost:5000/progress/get-progress`)
+      fetch(`http://localhost:4000/progress/get-progress`)
         .then((response) => response.json())
         .then((data) => {
           // Check if progress data is available
@@ -230,8 +224,8 @@ const MindMap = () => {
     }
   };
 
-  const handleBoxClick = (topics) => {
-    setSelectedTopic(topics);
+  const handleBoxClick = (topicData) => {
+    setSelectedTopic(topicData);
     setShowSidebar(true);
   };
 
