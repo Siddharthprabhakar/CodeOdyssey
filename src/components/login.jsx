@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './login.css';
 import image from '../images/login.png';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import Axios from 'axios';
+import { AppContext } from '../App';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const { email, setEmail } = useContext(AppContext);
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -21,8 +22,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      console.log(email);
+      console.log(password);
       const response = await Axios.post('http://localhost:3000/login', {
-        
         email,
         password,
       });
@@ -31,7 +33,7 @@ const Login = () => {
         // Successful login, redirect to the home page
         localStorage.setItem('name', response.data.name); // Save the user's name in local storage
         navigate(`/profile?name=${response.data.name}`);
-        navigate('/home');
+        navigate('/cloud');
       } else {
         // Handle unsuccessful login, e.g., display an error message
         console.error('Login failed:', response.data);

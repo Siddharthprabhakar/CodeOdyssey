@@ -14,8 +14,7 @@ const topicData = [
       tutorial: 'https://www.php.net/manual/en/tutorial.php',
     },
     videos: [
-      'https://www.youtube.com/embed/a7_WFUlFS94',
-      "https://www.youtube.com/embed/KBT2gmAfav4",
+      'https://www.youtube.com/embed/a7_WFUlFS94'
     ],    
   },
     {
@@ -31,8 +30,7 @@ const topicData = [
         tutorial: 'https://docs.oracle.com/javase/tutorial/',
       },
       videos: [
-        'https://www.youtube.com/embed/ntLJmHOJ0ME?list=PLu0W_9lII9agS67Uits0UnJyrYiXhDS6q',
-        "https://www.youtube.com/embed/BGTx91t8q50",
+        'https://www.youtube.com/embed/ntLJmHOJ0ME?list=PLu0W_9lII9agS67Uits0UnJyrYiXhDS6q'
       ],
     },
     {
@@ -48,8 +46,7 @@ const topicData = [
         tutorial: 'https://www.ruby-lang.org/en/documentation/',
       },
       videos: [
-        'https://www.youtube.com/embed/t_ispmWmdjY',
-        'https://www.youtube.com/embed/UYm0kfnRTJk',
+        'https://www.youtube.com/embed/t_ispmWmdjY'
       ],
     },
     {
@@ -81,8 +78,7 @@ const topicData = [
         tutorial: 'https://tour.golang.org/welcome/1',
       },
       videos: [
-        'https://www.youtube.com/embed/un6ZyFkqFKo',
-        "https://www.youtube.com/embed/446E-r0rXHI",
+        'https://www.youtube.com/embed/un6ZyFkqFKo'
       ],
     },
     {
@@ -98,8 +94,7 @@ const topicData = [
         tutorial: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide',
       },
       videos: [
-        "https://www.youtube.com/embed/lkIFF4maKMU",
-        "https://www.youtube.com/embed/W6NZfCO5SIk" ,
+        "https://www.youtube.com/embed/lkIFF4maKMU"
       ],
     },
     {

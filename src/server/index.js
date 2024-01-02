@@ -46,14 +46,15 @@ app.post('/insert', async (req, res) => {
   }
 });
 
-app.get('/user-data/:name', async (req, res) => {
-  const { name } = req.params;
+
+app.get('/user-data/:identifier', async (req, res) => {
+  const { identifier } = req.params;
 
   try {
-    const user = await User.findOne({ name });
+    const user = await User.find({ name: identifier })
 
     if (user) {
-      res.json({ message: user.message });
+      res.json({message : user});
     } else {
       res.status(404).send("User not found.");
     }
@@ -63,6 +64,27 @@ app.get('/user-data/:name', async (req, res) => {
   }
 });
 
+
+
+
+
+app.get('/user-data/:name', async (req, res) => {
+  const { name } = req.params;
+
+  try {
+    const user = await User.findOne({ name });
+
+    if (user) {
+      res.json({ message: user.message });
+     
+    } else {
+      res.status(404).send("User not found.");
+    }
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    res.status(500).send("Error fetching user data");
+  }
+});
 
 
 // Start the server

@@ -38,12 +38,49 @@ html {
 }
 
 body {
-    background-image: url('../images/banner.jpg');
     background-size: cover;
 }
 
+/* styles.css */
+/* styles.css */
+/* styles.css */
+.back-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    position: absolute;
+    top: 20px; 
+    left: 20px; 
+    z-index: 2; 
+  }
+
+  .back-button:hover {
+    background-color: #fff; 
+    color: #007bff; 
+  }
+  
+  .profile-container {
+    position: relative; /* Required for absolute positioning inside the profile box */
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin-top: 80px; /* Adjust margin-top to create space for the back button */
+  }
+  
+  /* Other styles for the profile box */
+  
+
 /* ---------- body element's */
-.container {
+.profilecontainer {
+    background-size: cover;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -53,11 +90,11 @@ body {
 .namechange{
     margin-top: 290px;
     color: #fff;
-    margin-left: 20rem;
 }
 
 .Contribox {
-    width: 800px;
+    margin-Top: 10px;
+    width: 400px;
     height: 500px;
     border-radius: 10px;
     border: 2px solid aquamarine; /* Specify border style, width, and color */
@@ -66,7 +103,7 @@ body {
     padding: 10px;
 }
 
-.profile-card {
+.pro-card {
     width: clamp(428px, 990px, 990px);
     height: 670px;
     background-color: var(--primary-bg);
@@ -78,20 +115,20 @@ body {
     overflow: auto;
 }
 /* ------ profile header section */
-.profile-header {
+.pro-header {
     background: url("../images/banner.jpg") center;
     background-size: cover;
     margin: 10px;
     border-radius: 30px 30px 0 0;
     position: relative;
 }
-    .main-profile {
+    .main-pro {
         display: flex;
         align-items: center;
         position: absolute;
         inset: calc(100% - 75px) auto auto 70px;
     }
-        .profile-image {
+        .pro-image {
             width: 150px;
             height: 150px;
             background: url('../images/profilepic.jpg') center;
@@ -99,7 +136,7 @@ body {
             border-radius: 50%;
             border: 10px solid var(--primary-bg);
         }
-        .profile-names {
+        .pro-names {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -114,19 +151,25 @@ body {
             }
 
 /* ------- profile body header */
-.profile-body {
+.pro-body {
+    color: white;
     display: grid;
-    grid-template-columns: 150px auto;
     gap: 70px;
     padding: 70px;
 }
-    .profile-actions {
+
+.p-body {
+    color: white;
+    display: grid;
+    gap: 70px;
+    padding-left: 70px;
+}
+    .pro-actions {
         display: grid;
-        grid-template-rows: repeat(2, max-content) auto;
         gap: 10px;
         margin-top: 30px;
     }
-    .profile-actions button {
+    .pro-actions button {
         all: unset;
         padding: 10px;
         color: var(--primary-color);
@@ -134,7 +177,7 @@ body {
         text-align: center;
         border-radius: 10px;
     }
-        .profile-actions .follow {background-color: var(--accent-bg)}
+        .pro-actions .follow {background-color: var(--accent-bg)}
     .bio {
         color: var(--primary-color);
         background-color: var(--secondary-bg);
@@ -201,21 +244,62 @@ body {
     gap: 10px; 
   } */
 
-  
-  .message-box {
-   
-    border: 1px solid #ccc; 
-    display:flex;
 
-    padding: 10px; 
-    background-color: #f7f7f7; 
-    border-radius: 5px; 
-    min-width: 200px; 
-    color:black;
+  .message-box {
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    min-width: 200px;
+    color: black;
     font-size: 20px;
-    align-content: flex-start;
-    
+    align-content: center;
     font-weight: bold;
-    
-  } 
+  }
   
+  .message-box table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .message-box th,
+  .message-box td {
+    width: 1000px;
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .message-box th {
+    background-color: #4CAF50; /* Green header background color */
+    color: white; /* Text color for header */
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-clicked {
+    background-color: #4CAF50; /* Green background color when header is clicked */
+    color: white; /* Change text color to white */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+  }
+  
+  .progress {
+    margin-left: 400px;
+    height: 20px;
+  }
+  
+  .p-box {
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    min-width: 200px;
+    color: black;
+    font-size: 20px;
+    align-content: center;
+    font-weight: bold;
+    width: 780px;
+  }

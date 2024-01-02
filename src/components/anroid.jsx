@@ -46,11 +46,11 @@ const AndroidMap = () => {
   return (
       <div className="andymind-map">
         <div className="textox">Android <br/> Development</div>
-        <div className="square-box">
+        <div className="alienbox">
                 <img src={andy} alt="Android"/>
             </div>
 
-        <div class="line"></div>
+        <div className="line"></div>
         <div className={`android-logo ${isMvvcVisible ? 'mvvc-visible' : ''}`}>
           <div className="rollbox">
                 <img src={image} alt="Android" height="100px"/>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { preLoaderAnim } from "../animations/index";
+import { preLoaderAnim } from "../animations/ani";
 import './preloader.css'
 
 const PreLoader = () => {
@@ -9,7 +9,7 @@ const PreLoader = () => {
   }, []);
   
   return (
-    <div className="preloader">
+    <div className="preloader" style={{backgroundColor: "black"}}>
       <div className="texts-container">
         <span>Developer,</span>
         <span>Curator,</span>

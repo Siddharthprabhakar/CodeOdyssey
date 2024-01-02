@@ -12,17 +12,18 @@
   "scripts": {
     "dev": "concurrently \"npm:dev:vite\" \"npm:dev:register\" \"npm:dev:indserver\" \"npm:dev:mokserver\"",
     "dev:vite": "vite",
-    "dev:register": "cd src/server && node register.js",
-    "dev:indserver": "cd src/server && node index.js",
-    "dev:mokserver": "cd src/roadmap-progress-tracker && node server.js",
+    "dev:register": "cd src/server && nodemon register.js",
+    "dev:indserver": "cd src/server && nodemon index.js",
+    "dev:mokserver": "cd src/roadmap-progress-tracker && nodemon server.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-spring/parallax": "^9.7.3",
+    "@react-spring/web": "^9.7.3",
     "@uidotdev/usehooks": "^2.3.1",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
@@ -32,6 +33,8 @@
     "datepicker": "^0.0.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "framer-motion": "^10.16.4",
     "gasp": "^0.0.2",
     "git": "^0.1.5",
     "gsap": "^3.12.2",
@@ -41,14 +44,19 @@
     "process": "^0.11.10",
     "rc-footer": "^0.6.8",
     "react": "^18.2.0",
+    "react-axios-progressbar": "^1.1.1",
     "react-bootstrap": "^2.9.1",
     "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-native": "^0.72.6",
     "react-router-dom": "^6.16.0",
     "react-scripts": "^3.0.1",
     "react-spring": "^9.7.3",
-    "react-tinder-card": "^1.5.1"
+    "react-three-fiber": "^6.0.13",
+    "react-tinder-card": "^1.5.1",
+    "styled-components": "^6.1.0",
+    "three": "^0.157.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

@@ -21,22 +21,27 @@ router.put('/update-progress/:topicId', async (req, res) => {
 // Get overall progress
 router.get('/get-progress', async (req, res) => {
   try {
-    // Calculate overall progress by summing up progress of all topics
-    const progress = await Progress.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalProgress: { $sum: '$progress' },
-        },
-      },
-    ]);
+    const uniqueTopicIds = await Progress.distinct('topicId');
 
-    const overallProgress = progress.length ? progress[0].totalProgress : 0;
-
-    res.json({ overallProgress });
-  } catch (err) {
-    console.error(err);
+    res.json({ topicIds: uniqueTopicIds });
+  } catch (error) {
+    console.error('Error fetching topic names:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.delete('/clear-all', async (req, res) => {
+  try {
+      const result = await Progress.deleteMany();
+
+      if (result.deletedCount > 0) {
+          res.status(200).json({ message: 'All progress cleared successfully' });
+      } else {
+          res.status(404).json({ error: 'No progress found to clear' });
+      }
+  } catch (error) {
+      console.error('Error clearing progress:', error);
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
 

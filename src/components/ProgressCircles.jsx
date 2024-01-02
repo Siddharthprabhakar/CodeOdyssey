@@ -34,7 +34,7 @@ const ProgressCircles = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="container">
+          <div className="container ">
             <div className="progress blue">
               <span className="progress-right">
                 <span className="progress-bar"></span>

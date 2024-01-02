@@ -14,6 +14,7 @@ import AndroidMap from './components/anroid.jsx'
 import Webdev from './components/webdev.jsx'
 import ContactUs from './components/ContactUs.jsx'
 import Profile from './components/profile.jsx'
+import Roadmap from './components/SquareBox.jsx'
 
 const router = createBrowserRouter([
   {
@@ -51,8 +52,11 @@ const router = createBrowserRouter([
       {
         path:'/profile',
         element:<Profile/>
+      },
+      {
+        path:'/roadmap',
+        element:<Roadmap/>
       }
-      
     ],
   }
 ])

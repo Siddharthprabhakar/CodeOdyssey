@@ -53,28 +53,6 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// app.get('/userDetails/:name', async (req, res) => {
-//   try {
-//     const userName = req.params.name; // Get the name from the route parameter
-
-//     // Replace with your database query logic to fetch the user's data by name
-//     const userData = await User.findOne({ name: userName });
-
-//     if (userData) {
-//       res.status(200).json(userData);
-//     } else {
-//       res.status(404).json({ error: 'User not found' });
-//     }
-//   } catch (error) {
-//     console.error('Error fetching user data:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
-
-
-
 // POST route to handle user login
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;

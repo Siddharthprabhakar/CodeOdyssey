@@ -1,8 +1,15 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import { useLocation } from 'react-router-dom';
 
 export default function Footer() {
+  const location = useLocation();
+
+  const isHeaderVisible = !['/login', '/signup', '/profile'].includes(location.pathname);
+
   return (
+    <>
+    {isHeaderVisible && (
     <MDBFooter bgColor='light' className='text-center text-lg-start text-muted' style={{ padding: "5px"}}>
       <section className=''>
         <MDBContainer className='text-center text-md-start mt-5'>
@@ -82,11 +89,13 @@ export default function Footer() {
       </section>
 
       <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-        © 2021 Copyright:
+        © 2023 Copyright:
         <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
           CodeOdyssey.com
         </a>
       </div>
     </MDBFooter>
+    )
+    }</>
   );
 }

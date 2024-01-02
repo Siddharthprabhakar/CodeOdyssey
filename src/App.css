@@ -10,6 +10,10 @@
   height: 6500px;
 }
 
+body.offcanvas-backdrop.show {
+  overflow: auto;
+}
+
 .login-overlay {
   /* Your existing styles for the login overlay */
 

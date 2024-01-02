@@ -31,7 +31,7 @@
   height: 5810px;
 }
 
-.square-box {
+.alienbox {
   margin-top: 290px;
   margin-bottom: 400px;
   justify-content: center;
@@ -42,7 +42,7 @@
   position: absolute;
 }
 
-.square-box:hover {
+.alienbox:hover {
   animation: wiggle 0.5s infinite;
 }
 
@@ -113,7 +113,7 @@
   color: #3ddc84; 
 }
 
-.square-box img {
+.alienbox img {
   width: 500px; 
   height: 500px; 
   object-fit: cover; 

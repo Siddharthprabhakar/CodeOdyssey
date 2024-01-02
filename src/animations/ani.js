@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import gsap from 'gsap';
 
 // Declare a general timeline to use in all the animation functions.
 

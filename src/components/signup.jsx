@@ -66,7 +66,7 @@ const Signup = () => {
 
       console.log('User registered successfully:', response.data);
       // Redirect to the home page after successful registration
-      navigate('/home');
+      navigate('/cloud');
     } catch (error) {
       console.error('Error registering user:', error);
       // Handle the error, e.g., display an error message to the user.

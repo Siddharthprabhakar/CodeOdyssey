@@ -23,7 +23,7 @@ h1:before {
     position: fixed;
     line-height: 65px;
     text-align: center;
-    z-index: 1;
+    z-index: 2;
 }
 
 .profile-image{
@@ -245,6 +245,12 @@ h1:before {
     -webkit-animation: inBtm 0.8s forwards;
     animation: inBtm 0.8s forwards;
 }
+
+.progress {
+    height: 20px;
+    border-radius: 10px;
+    background-color: #4CAF50;
+  }
 
 @-webkit-keyframes inM {
     50% {

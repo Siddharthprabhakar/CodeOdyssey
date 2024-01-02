@@ -1,234 +1,183 @@
-import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import { InputGroup, DropdownButton, Dropdown, Button, Form } from 'react-bootstrap'; // Import Form component from react-bootstrap
-import 'react-datepicker/dist/react-datepicker.css'; // Import DatePicker styles
-import './profile.css'; // Make sure to import your CSS file
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import axios from 'axios'
-const genders = ['Male', 'Female', 'Transgender', 'Custom'];
+import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import {
+  InputGroup,
+  DropdownButton,
+  Dropdown,
+  Button,
+  Form,
+} from "react-bootstrap"; // Import Form component from react-bootstrap
+import "react-datepicker/dist/react-datepicker.css"; // Import DatePicker styles
+import "./profile.css"; // Make sure to import your CSS file
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import axios from "axios";
+import { Link } from 'react-router-dom';
+import backgroundImage from '../images/banner.jpg';
+import { useHistoryState } from "@uidotdev/usehooks";
+import APIComponent from './MobileWelcomeSlide'
+import ClearAllProgressButton from './ClearAllProgressButton'
 
+const genders = ["Male", "Female", "Transgender", "Custom"];
 const tenYearsAgo = new Date();
 tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
 
 const Profile = () => {
-    const [pageTitle, setPageTitle] = useState(''); 
-    const [editMode, setEditMode] = useState(false);
-    const [selectedGender, setSelectedGender] = useState('');
-    const [customGender, setCustomGender] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [name , setName] =useState('');
-    const[message , setMessage] =useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    const [dob, setDob] = useState('');
-    const [interests, setInterests] = useState('');
-    const [gender, setGender] = useState('');
-    const [contributions, setContributions] = useState([]); 
+  const [pageTitle, setPageTitle] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [selectedGender, setSelectedGender] = useState("");
+  const [customGender, setCustomGender] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [name, setName] = useState("");
+  const [messageArray, setMessage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [dob, setDob] = useState("");
+  const [interests, setInterests] = useState("");
+  const [gender, setGender] = useState("");
+  const [contributions, setContributions] = useState([]);
+  const [headerClicked, setHeaderClicked] = useState(false);
+  const history = useHistoryState();
 
-    const handleSaveChanges = () => {
-        // Logic to save changes (can be implemented as per your requirements)
-        // For example, you can send a request to update user data to a server here
-        // For now, let's just set editMode to false
-        setEditMode(true);
-      };
-    
-     
-    
-      useEffect(() => {
-       
+  const handleLogout = () => {
+    // Clear user's session data (for example, in localStorage or sessionStorage)
+    localStorage.removeItem("name");
+    // Redirect the user to the login page
+    history.push("/login");
+  };
 
-        const storedName = localStorage.getItem('name'); // Retrieve the user's name from local storage
-        if (storedName) {
-          setName(storedName); // Set the user's name
-          console.log('User name is stored in local storage:', storedName);
-          setPageTitle(`Hi ${storedName}`);
-           // Fetch the message based on the user's name
-          axios.get(`http://localhost:4000/user-data/${storedName}`)
-            .then((response) => {
-              console.log('Response from server:', response.data);
-              setMessage(response.data.message);
-            })
-            .catch((error) => {
-              console.error('Error fetching message:', error);
-      });
-        } else {
-          setPageTitle('Hi User');
-        }
-        
-        
-      }, []);
-      
-    
-    
-    
-     
+  const handleHeaderClick = () => {
+    setHeaderClicked(!headerClicked);
+  };
+
+  const handleSaveChanges = () => {
+    setEditMode(true);
+  };
+
+  const handleRequest = async (url) => {
+    await axios.get(url);
+  };
+
+
+  
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("name"); // Retrieve the user's name from local storage
+    const storedEmail = localStorage.getItem("email");
+    if (storedName) {
+      setName(storedName); // Set the user's name
+      setEmail(storedEmail);
+      console.log("User name is stored in local storage:", storedName);
+      setPageTitle(`${storedName}`);
+      // Fetch the message based on the user's name
+      axios
+        .get(`http://localhost:4000/user-data/${storedName}`)
+        .then((response) => {
+          const userData = response.data; //  response.data contains name, email, dob, etc. 
+          console.log("Response from server:", response.data);
+          setMessage(response.data.message);
+        })
+        .catch((error) => {
+          console.error("Error fetching message:", error);
+        });
+    } else {
+      setPageTitle("User");
+    }
+  }, []);
+
+  
+  
+  
+
   return (
-    <div className="container">
-      <div className="profile-card">
-      <div className="profile-header">
-        <h1 className="namechange">{pageTitle}!!</h1> {/* Display dynamic title */}
-          <div className="main-profile">
-            <div className="profile-image"></div>
-            {/* <div className="profile-names">
-              <h1 className="username">Mohammad.S</h1>
-              <small className="page-title">Front-End developer</small>
-            </div> */}
+    <>
+<div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }}>
+  <Link to='/home'><button className="back-button">
+      &larr; {/* Unicode character for left arrow */}
+    </button>
+    </Link>
+    </div>
+    <div className="profilecontainer"style={{
+          position: 'absolute', // Set position to absolute for the overlapping container
+          top: '50%', // Adjust top position as needed
+          left: '50%', // Adjust left position as needed
+          transform: 'translate(-50%, -50%)', // Center the container horizontally and vertically
+          padding: '20px', // Optional: Add padding for content inside the container
+          borderRadius: '10px', // Optional: Add border-radius for rounded corners
+        }}
+      >
+      <div className="pro-card">
+        <div className="pro-header">
+          <h1 className="namechange">Hi {pageTitle}!!</h1>{" "}
+          {/* Display dynamic title */}
+          <div className="main-pro">
+            <div className="pro-image"></div>
           </div>
         </div>
 
-        <div className="profile-body">
-          
-          </div>
+        <div className="pro-body"></div>
 
-          <div className="account-info" style={{ padding: "30px"}}>
-            <div className="fields">
-              <InputGroup className="dark mb-3">
-                <InputGroup.Text>First Name</InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your first name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </InputGroup>
+        <div className="account-info" style={{ padding: "30px" }}>
+          <div className="fields">
+          <InputGroup className="dark mb-3">
+            <InputGroup.Text>Name</InputGroup.Text>
+            <Form.Control type="text" value={messageArray[0]?.name} readOnly />
+          </InputGroup>
 
-              <InputGroup className="mb-3">
-                <InputGroup.Text>Last Name</InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your last name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <InputGroup.Text>Email</InputGroup.Text>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </InputGroup>
-
-              {/* <InputGroup className="mb-3">
-                <InputGroup.Text>Password</InputGroup.Text>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </InputGroup> */}
-
-            <div className="account-info" style={{ display: 'flex', gap: '20px', marginBottom: '20px', alignContent: "center"}}>
-                <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        maxDate={tenYearsAgo} // User must be at least 10 years old
-                        showYearDropdown
-                        dateFormat="MMMM d, yyyy"
-                        placeholderText="Date of Birth"
-                        className="form-control"
-                        style={{ marginLeft: '10px', width: '200px' }}
-                />
-
-                <InputGroup className="mb-3">
-                    <DropdownButton
-                        variant="outline-secondary"
-                        title={selectedGender || 'Gender'}
-                        id="input-group-dropdown-2"
-                        onSelect={(eventKey) => {
-                            setSelectedGender(eventKey);
-                            if (eventKey !== 'Custom') {
-                                setEditMode(false); // Disable edit mode when a predefined gender is selected
-                            } else {
-                                setEditMode(true); // Enable edit mode for custom gender input
-                            }
-                        }}
-                    >
-                        {genders.map((genderOption) => (
-                            <Dropdown.Item key={genderOption} eventKey={genderOption}>
-                                {genderOption}
-                            </Dropdown.Item>
-                        ))}
-                    </DropdownButton>
-
-                    {!editMode && selectedGender !== 'Custom' && (
-                        <Form.Control
-                            aria-label="Selected gender"
-                            value={selectedGender}
-                            readOnly // Prevents user input
-                            style={{ backgroundColor: '#f8f9fa', border: 'none' }} // Light background color
-                        />
-                    )}
-
-                    {selectedGender === 'Custom' && editMode && (
-                        <Form.Control
-                            aria-label="Custom gender"
-                            placeholder="Enter custom gender"
-                            value={customGender}
-                            onChange={(e) => setCustomGender(e.target.value)}
-                        />
-                    )}
-                </InputGroup>
+          <InputGroup className="mb-3">
+            <InputGroup.Text>Email</InputGroup.Text>
+            <Form.Control type="text" value={messageArray[0]?.email} readOnly />
+          </InputGroup>
+        </div>
+          <div className="pro-body">
+              <div className="querybox">
+                <h2 style={{ padding: "5px" }}> Queries</h2>
+                <table className="message-box">
+                  <thead>
+                    <tr>
+                      <th className={headerClicked ? "header-clicked" : ""}>
+                        Message
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {Array.isArray(messageArray) ? 
+                    messageArray.map( ({ message }) => (
+                      <tr>
+                        <td>{message}</td>
+                      </tr>
+                    ))
+                  : null 
+                  }
+                  
+                  </tbody>
+                </table>
+              </div>
             </div>
-
+            <div className="p-body">
+        <div className="querybox">
+          <h2 style={{ padding: "5px", color: "white" }}> Progress of {pageTitle}</h2>
+          <ul className="p-box">
+              <li>
+                <APIComponent/>
+              </li>
+          </ul>
+        </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+      <div style={{ textAlign: "center", marginRight: '10px', height: '0px'}}>
+      <Button variant="danger" href="/home" onClick={handleLogout}>
+          Logout
+      </Button>
+      </div>
+      <div style={{ textAlign: "center" }}>
+          <ClearAllProgressButton/> 
+      </div>
+      </div>
           </div>
-              <div  style={{ textAlign: 'center' }}>
-            {editMode ? (
-              <>
-                <Button
-                  variant="success"
-                  className="save-button"
-                  style={{ margin: '0 10px' }}
-                  onClick={handleSaveChanges}
-                >
-                  Save
-                </Button>
-                <Button
-                  variant="danger"
-                  className="back-button"
-                  style={{ margin: '0 10px' }}
-                  onClick={() => setEditMode(false)}
-                >
-                  Back
-                </Button>
-              </>
-            ) : (
-              <Button variant="primary" className="make-changes-button" onClick={() => setEditMode(true)}>
-                Make Changes
-              </Button>
-            )}
-           
-           <div className="profile-body">
-           <div className="Contribox">
-  <h2 style={{ padding: "5px" }}>Contributions</h2>
-  <div className="message-box">
-    <p>{message}</p>
-  </div>
-</div>
-
- 
-               {/* Display the message in the Contribution section */}
-           
-                {/* <h2 style={{padding: "5px",}}>Contributions</h2>
-                        
-                        <ul>
-                            {message.map((message, index) => (
-                                <li key={index}>{message}</li>
-                            ))}
-                        </ul> */}
-               
-            </div>
-            
-            </div>
-            </div>
-          </div>
-          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
