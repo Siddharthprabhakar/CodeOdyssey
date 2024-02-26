@@ -1,8 +1,63 @@
-# React + Vite
+# CodeOdyssey
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to CodeOdyssey - Your Ultimate Coding Journey!
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+CodeOdyssey is a web application built using ReactJS, CSS, Bootstrap, and JavaScript. It serves as a comprehensive platform that provides curated coding roadmaps developed by working professionals, offering a unique perspective tailored for students.
+
+## Features
+
+- **Curated Roadmaps**: Explore carefully crafted roadmaps that guide you through various programming languages, frameworks, and technologies.
+  
+- **From Professionals to Students**: Benefit from roadmaps designed by experienced working professionals who understand the industry's demands.
+
+- **Responsive Design**: Enjoy a seamless experience across different devices, thanks to our responsive and user-friendly design.
+
+- **Interactive Learning**: Engage with interactive elements that enhance your learning experience, making the coding journey enjoyable.
+
+## Technologies Used
+
+- **ReactJS**: The heart of our web application, providing a dynamic and efficient user interface.
+
+- **CSS**: Styling to create a visually appealing and intuitive design.
+
+- **Bootstrap**: Utilized for responsive and mobile-first design, speeding up development and ensuring a consistent look and feel.
+
+- **JavaScript**: Enhances interactivity, providing a smooth and dynamic user experience.
+
+## Getting Started
+
+To run CodeOdyssey locally on your machine, follow these steps:
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/Siddharthprabhakar/CodeOdyssey.git
+   ```
+
+2. Navigate to the project directory:
+   ```
+   cd CodeOdyssey
+   ```
+
+3. Install dependencies:
+   ```
+   npm install
+   ```
+
+4. Run the application:
+   ```
+   npm run dev
+   ```
+
+5. Open your browser and visit [http://localhost:3000](http://localhost:5173/) to explore CodeOdyssey.
+
+## Contributing
+
+We welcome contributions to improve and expand CodeOdyssey! Feel free to submit issues or pull requests.
+
+## Contact
+
+If you have any questions or suggestions, feel free to contact us at [sid130803@gamil.com](mailto:sid130803@gmail.com).
+
+Happy coding! 🚀
