@@ -4,7 +4,7 @@ Welcome to CodeOdyssey - Your Ultimate Coding Journey!
 
 ## Overview
 
-CodeOdyssey is a web application built using ReactJS, CSS, Bootstrap, and JavaScript. It serves as a comprehensive platform that provides curated coding roadmaps developed by working professionals, offering a unique perspective tailored for students.
+CodeOdyssey is a full-stack web application built using ReactJS, CSS, Bootstrap, JavaScript, Express.js, and MongoDB. It serves as a comprehensive platform that provides curated coding roadmaps developed by working professionals, offering a unique perspective tailored for students.
 
 ## Features
 
@@ -25,6 +25,10 @@ CodeOdyssey is a web application built using ReactJS, CSS, Bootstrap, and JavaSc
 - **Bootstrap**: Utilized for responsive and mobile-first design, speeding up development and ensuring a consistent look and feel.
 
 - **JavaScript**: Enhances interactivity, providing a smooth and dynamic user experience.
+
+- **Express.js**: Handles the backend logic and API endpoints, making the application dynamic.
+
+- **MongoDB**: Stores data related to roadmaps and user information.
 
 ## Getting Started
 
@@ -61,3 +65,5 @@ We welcome contributions to improve and expand CodeOdyssey! Feel free to submit 
 If you have any questions or suggestions, feel free to contact us at [sid130803@gamil.com](mailto:sid130803@gmail.com).
 
 Happy coding! 🚀
+
+
