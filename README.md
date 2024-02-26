@@ -62,7 +62,7 @@ We welcome contributions to improve and expand CodeOdyssey! Feel free to submit 
 
 ## Contact
 
-If you have any questions or suggestions, feel free to contact us at [sid130803@gamil.com](mailto:sid130803@gmail.com).
+If you have any questions or suggestions, feel free to contact at [sid130803@gamil.com](mailto:sid130803@gmail.com).
 
 Happy coding! 🚀
 
